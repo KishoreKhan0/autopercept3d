@@ -1,0 +1,16 @@
+[project]
+name = "autopercept3d"
+version = "0.1.0"
+description = "Autonomous perception and 3D visualization workbench"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "opencv-python",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
