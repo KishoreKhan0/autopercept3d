@@ -21,7 +21,7 @@ from autopercept3d.visualization.camera import draw_camera_panel
 
 DEFAULT_DATASET_ROOT = os.environ.get(
     "KITTI_ROOT",
-    r"C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object",
+    r"<PATH_TO_KITTI_OBJECT_DATASET>",
 )
 
 

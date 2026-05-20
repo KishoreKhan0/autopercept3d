@@ -1,0 +1,22 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+
+# datasets
+datasets/
+data/raw/
+data/processed/
+data/samples/
+
+# generated outputs
+outputs/
+reports/
+assets/*.png
+assets/*.jpg
+assets/*.jpeg
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
