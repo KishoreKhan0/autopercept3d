@@ -20,7 +20,6 @@ DBSCAN non-ground clustering
 BEV visualization + camera projection + evaluation dashboard
 ```
 
-This is a working **v1 portfolio project**. The current system is a classical perception baseline, not a deep-learning detector.
 
 ---
 
@@ -87,11 +86,6 @@ This is not official KITTI benchmark evaluation.
 
 This project currently uses the **KITTI Object Detection** dataset.
 
-Expected local dataset root:
-
-```text
-C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object
-```
 
 Expected folder structure:
 
@@ -185,7 +179,7 @@ autopercept3d/
 From the project folder:
 
 ```bat
-cd "C:\Users\KISHORE KHAN\Desktop\Projects\autopercept3d"
+cd "<PATH_TO_PROJECT>"
 ```
 
 Create and activate a virtual environment:
@@ -215,7 +209,7 @@ pip install -r requirements.txt
 Run the full pipeline on one frame:
 
 ```bat
-python scripts\run_frame_pipeline.py --dataset-root "C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object" --frame 000264 --output-dir outputs
+python scripts\run_frame_pipeline.py --dataset-root "<PATH_TO_KITTI_OBJECT_DATASET>" --frame 000264 --output-dir outputs
 ```
 
 Run the dashboard:
@@ -233,77 +227,77 @@ Then select frame `000264` and click **Run pipeline**.
 ### Inspect One KITTI Frame
 
 ```bat
-python scripts\inspect_kitti_frame.py --dataset-root "C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object" --frame 000000
+python scripts\inspect_kitti_frame.py --dataset-root "<PATH_TO_KITTI_OBJECT_DATASET>" --frame 000000
 ```
 
 ### Preprocessing Inspection
 
 ```bat
-python scripts\inspect_preprocessing.py --dataset-root "C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object" --frame 000000 --voxel-size 0.2 --save assets\preprocessing_000000.png
+python scripts\inspect_preprocessing.py --dataset-root "<PATH_TO_KITTI_OBJECT_DATASET>" --frame 000000 --voxel-size 0.2 --save assets\preprocessing_000000.png
 ```
 
 ### Ground Removal
 
 ```bat
-python scripts\inspect_ground_removal.py --dataset-root "C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object" --frame 000000 --voxel-size 0.2 --distance-threshold 0.25 --save assets\ground_removal_000000.png
+python scripts\inspect_ground_removal.py --dataset-root "<PATH_TO_KITTI_OBJECT_DATASET>" --frame 000000 --voxel-size 0.2 --distance-threshold 0.25 --save assets\ground_removal_000000.png
 ```
 
 ### Clustering
 
 ```bat
-python scripts\inspect_clustering.py --dataset-root "C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object" --frame 000000 --voxel-size 0.2 --ground-threshold 0.25 --eps 0.8 --min-samples 10 --save assets\clustering_000000.png
+python scripts\inspect_clustering.py --dataset-root "<PATH_TO_KITTI_OBJECT_DATASET>" --frame 000000 --voxel-size 0.2 --ground-threshold 0.25 --eps 0.8 --min-samples 10 --save assets\clustering_000000.png
 ```
 
 ### 3D Proposal Boxes
 
 ```bat
-python scripts\inspect_bounding_boxes.py --dataset-root "C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object" --frame 000000 --voxel-size 0.2 --ground-threshold 0.25 --eps 0.8 --min-samples 10 --save assets\boxes_000000.png
+python scripts\inspect_bounding_boxes.py --dataset-root "<PATH_TO_KITTI_OBJECT_DATASET>" --frame 000000 --voxel-size 0.2 --ground-threshold 0.25 --eps 0.8 --min-samples 10 --save assets\boxes_000000.png
 ```
 
 ### KITTI Ground-Truth Overlay in BEV
 
 ```bat
-python scripts\inspect_ground_truth_overlay.py --dataset-root "C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object" --frame 000000 --voxel-size 0.2 --ground-threshold 0.25 --eps 0.8 --min-samples 10 --save assets\gt_overlay_000000.png
+python scripts\inspect_ground_truth_overlay.py --dataset-root "<PATH_TO_KITTI_OBJECT_DATASET>" --frame 000000 --voxel-size 0.2 --ground-threshold 0.25 --eps 0.8 --min-samples 10 --save assets\gt_overlay_000000.png
 ```
 
 ### Full Single-Frame Pipeline
 
 ```bat
-python scripts\run_frame_pipeline.py --dataset-root "C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object" --frame 000264 --output-dir outputs
+python scripts\run_frame_pipeline.py --dataset-root "<PATH_TO_KITTI_OBJECT_DATASET>" --frame 000264 --output-dir outputs
 ```
 
 ### Batch Pipeline
 
 ```bat
-python scripts\run_batch_pipeline.py --dataset-root "C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object" --start-index 250 --max-frames 20 --output-dir reports
+python scripts\run_batch_pipeline.py --dataset-root "<PATH_TO_KITTI_OBJECT_DATASET>" --start-index 250 --max-frames 20 --output-dir reports
 ```
 
 ### BEV Visualization
 
 ```bat
-python scripts\render_bev_scene.py --dataset-root "C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object" --frame 000264 --view summary --save assets\bev_summary_000264.png
+python scripts\render_bev_scene.py --dataset-root "<PATH_TO_KITTI_OBJECT_DATASET>" --frame 000264 --view summary --save assets\bev_summary_000264.png
 ```
 
 ```bat
-python scripts\render_bev_scene.py --dataset-root "C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object" --frame 000264 --view single --save assets\bev_scene_000264.png
+python scripts\render_bev_scene.py --dataset-root "<PATH_TO_KITTI_OBJECT_DATASET>" --frame 000264 --view single --save assets\bev_scene_000264.png
 ```
 
 ### Camera + BEV Frame Summary
 
 ```bat
-python scripts\render_frame_summary.py --dataset-root "C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object" --frame 000264 --save assets\frame_summary_000264.png
+python scripts\render_frame_summary.py --dataset-root "<PATH_TO_KITTI_OBJECT_DATASET>" --frame 000264 --save assets\frame_summary_000264.png
 ```
 
 ### LiDAR Projection into Camera
 
 ```bat
-python scripts\render_lidar_projection.py --dataset-root "C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object" --frame 000264 --crop-roi --save assets\lidar_projection_000264.png
+python scripts\render_lidar_projection.py --dataset-root "<PATH_TO_KITTI_OBJECT_DATASET>" --frame 000264 --crop-roi --save assets\lidar_projection_000264.png
 ```
 
 ### 3D Boxes Projected into Camera
 
 ```bat
-python scripts\render_camera_3d_boxes.py --dataset-root "C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object" --frame 000264 --save assets\camera_3d_boxes_000264.png
+python scripts\render_camera_3d_boxes.py --dataset-root "<PATH_TO_KITTI_OBJECT_DATASET>" --frame 000264 --save assets\camera_3d_boxes_000264.png
 ```
 
 ---
@@ -340,13 +334,13 @@ Dashboard features:
 Single-frame evaluation:
 
 ```bat
-python scripts\evaluate_frame_iou.py --dataset-root "C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object" --frame 000264 --iou-threshold 0.10 --output-json reports\eval_000264.json --save-plot reports\eval_000264.png
+python scripts\evaluate_frame_iou.py --dataset-root "<PATH_TO_KITTI_OBJECT_DATASET>" --frame 000264 --iou-threshold 0.10 --output-json reports\eval_000264.json --save-plot reports\eval_000264.png
 ```
 
 Batch evaluation:
 
 ```bat
-python scripts\run_batch_iou_evaluation.py --dataset-root "C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object" --start-index 250 --max-frames 20 --iou-threshold 0.10 --output-dir reports_iou_250_269
+python scripts\run_batch_iou_evaluation.py --dataset-root "<PATH_TO_KITTI_OBJECT_DATASET>" --start-index 250 --max-frames 20 --iou-threshold 0.10 --output-dir reports_iou_250_269
 ```
 
 Generated batch IoU files:
@@ -381,7 +375,7 @@ avg_fps:            8.60
 Export portfolio/demo images for one frame:
 
 ```bat
-python scripts\export_demo_assets.py --dataset-root "C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object" --frame 000264 --output-dir demo_assets
+python scripts\export_demo_assets.py --dataset-root "<PATH_TO_KITTI_OBJECT_DATASET>" --frame 000264 --output-dir demo_assets
 ```
 
 Generated files:
@@ -442,8 +436,6 @@ This project is intentionally a classical MVP baseline. Current limitations are:
 - There is no learned 3D detector yet.
 - There is no nuScenes/CARLA support yet.
 
-These are expected limitations for v1 and define the next improvement path.
-
 ---
 
 ## Roadmap
@@ -499,6 +491,3 @@ AutoPercept3D demonstrates:
 
 ---
 
-## Author
-
-Built as a flagship visual-computing/autonomous-driving portfolio project.
