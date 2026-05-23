@@ -7,13 +7,14 @@ from autopercept3d.datasets.kitti import KITTIDataset
 from autopercept3d.perception.pipeline import (
     ClassicalPipelineConfig,
     boxes_to_records,
+    oriented_boxes_to_records,
     run_classical_lidar_pipeline,
 )
 
 
-def save_metrics_csv(path: Path, metrics: dict, timings_ms: dict) -> None:
+def write_metrics_csv(path: Path, metrics: dict, timings_ms: dict) -> None:
     """
-    Save one-row frame metrics as CSV.
+    Write one-row metrics CSV.
     """
     path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -28,39 +29,79 @@ def save_metrics_csv(path: Path, metrics: dict, timings_ms: dict) -> None:
         writer.writerow(row)
 
 
-def save_result_json(path: Path, frame_id: str, metrics: dict, timings_ms: dict, boxes: list[dict]) -> None:
+def write_result_json(path: Path, result) -> None:
     """
-    Save frame result as JSON.
+    Write full frame result JSON with both axis-aligned and oriented boxes.
     """
     path.parent.mkdir(parents=True, exist_ok=True)
 
     payload = {
-        "frame_id": frame_id,
-        "metrics": metrics,
-        "timings_ms": timings_ms,
-        "boxes": boxes,
+        "frame_id": result.frame_id,
+        "metrics": result.metrics,
+        "timings_ms": result.timings_ms,
+        "axis_aligned_boxes": boxes_to_records(result.boxes),
+        "oriented_boxes": oriented_boxes_to_records(result.oriented_boxes),
     }
 
     with path.open("w", encoding="utf-8") as file:
         json.dump(payload, file, indent=2)
 
 
-def print_table(title: str, items: dict) -> None:
+def print_metrics(metrics: dict, timings_ms: dict) -> None:
     print()
-    print(title)
-    print("-" * len(title))
+    print("Metrics")
+    print("-------")
 
-    for key, value in items.items():
+    for key, value in metrics.items():
         if isinstance(value, float):
             print(f"{key:<28}: {value:>10.2f}")
         else:
-            print(f"{key:<28}: {value:>10}")
+            print(f"{key:<28}: {str(value):>10}")
+
+    print()
+    print("Timings in milliseconds")
+    print("-----------------------")
+
+    for key, value in timings_ms.items():
+        print(f"{key:<28}: {value:>10.2f}")
+
+
+def print_axis_box_preview(box_records: list[dict], max_rows: int = 10) -> None:
+    print()
+    print("First axis-aligned boxes:")
+    print("cluster_id | points | center_x center_y center_z | length width height")
+    print("-" * 75)
+
+    for item in box_records[:max_rows]:
+        print(
+            f"{item['cluster_id']:>9} | "
+            f"{item['num_points']:>6} | "
+            f"{item['center_x']:>8.2f} {item['center_y']:>8.2f} {item['center_z']:>8.2f} | "
+            f"{item['length']:>6.2f} {item['width']:>6.2f} {item['height']:>6.2f}"
+        )
+
+
+def print_oriented_box_preview(box_records: list[dict], max_rows: int = 10) -> None:
+    print()
+    print("First oriented boxes:")
+    print("cluster_id | points | center_x center_y center_z | length width height | yaw_deg")
+    print("-" * 88)
+
+    for item in box_records[:max_rows]:
+        print(
+            f"{item['cluster_id']:>9} | "
+            f"{item['num_points']:>6} | "
+            f"{item['center_x']:>8.2f} {item['center_y']:>8.2f} {item['center_z']:>8.2f} | "
+            f"{item['length']:>6.2f} {item['width']:>6.2f} {item['height']:>6.2f} | "
+            f"{item['yaw_deg']:>7.1f}"
+        )
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Run the AutoPercept3D classical LiDAR pipeline on one KITTI frame."
+        description="Run AutoPercept3D classical LiDAR pipeline for one KITTI frame."
     )
+
     parser.add_argument(
         "--dataset-root",
         type=str,
@@ -107,10 +148,12 @@ def main() -> None:
         "--output-dir",
         type=str,
         default="outputs",
-        help="Directory where JSON and CSV results are saved.",
+        help="Output directory.",
     )
 
     args = parser.parse_args()
+
+    dataset = KITTIDataset(dataset_root=args.dataset_root)
 
     config = ClassicalPipelineConfig(
         voxel_size=args.voxel_size,
@@ -120,52 +163,35 @@ def main() -> None:
         dbscan_min_samples=args.min_samples,
     )
 
-    dataset = KITTIDataset(dataset_root=args.dataset_root)
-    result = run_classical_lidar_pipeline(dataset, args.frame, config)
-
-    boxes = boxes_to_records(result.boxes)
-
-    output_dir = Path(args.output_dir)
-    json_path = output_dir / f"frame_{args.frame}_result.json"
-    csv_path = output_dir / f"frame_{args.frame}_metrics.csv"
-
-    save_result_json(
-        json_path,
-        frame_id=args.frame,
-        metrics=result.metrics,
-        timings_ms=result.timings_ms,
-        boxes=boxes,
-    )
-
-    save_metrics_csv(
-        csv_path,
-        metrics=result.metrics,
-        timings_ms=result.timings_ms,
-    )
-
     print("=" * 60)
     print(f"AutoPercept3D classical LiDAR pipeline - frame {args.frame}")
     print("=" * 60)
 
-    print_table("Metrics", result.metrics)
-    print_table("Timings in milliseconds", result.timings_ms)
+    result = run_classical_lidar_pipeline(
+        dataset=dataset,
+        frame_id=args.frame,
+        config=config,
+    )
+
+    output_dir = Path(args.output_dir)
+
+    json_path = output_dir / f"frame_{args.frame}_result.json"
+    csv_path = output_dir / f"frame_{args.frame}_metrics.csv"
+
+    write_result_json(json_path, result)
+    write_metrics_csv(csv_path, result.metrics, result.timings_ms)
+
+    print_metrics(result.metrics, result.timings_ms)
 
     print()
     print(f"Saved JSON result: {json_path}")
     print(f"Saved CSV metrics: {csv_path}")
 
-    print()
-    print("First boxes:")
-    print("cluster_id | points | center_x center_y center_z | length width height")
-    print("-" * 75)
+    axis_records = boxes_to_records(result.boxes)
+    oriented_records = oriented_boxes_to_records(result.oriented_boxes)
 
-    for box in boxes[:10]:
-        print(
-            f"{box['cluster_id']:>9} | "
-            f"{box['num_points']:>6} | "
-            f"{box['center_x']:>8.2f} {box['center_y']:>8.2f} {box['center_z']:>8.2f} | "
-            f"{box['length_x']:>6.2f} {box['width_y']:>6.2f} {box['height_z']:>6.2f}"
-        )
+    print_axis_box_preview(axis_records)
+    print_oriented_box_preview(oriented_records)
 
 
 if __name__ == "__main__":

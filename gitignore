@@ -1,22 +1,74 @@
-.venv/
+# Python
 __pycache__/
-*.pyc
-.env
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
 
-# datasets
-datasets/
-data/raw/
-data/processed/
-data/samples/
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
 
-# generated outputs
-outputs/
-reports/
-assets/*.png
-assets/*.jpg
-assets/*.jpeg
-
-# IDE / OS
+# IDE / editor
 .vscode/
 .idea/
+*.swp
+*.swo
+
+# OS files
 .DS_Store
+Thumbs.db
+
+# Environment / secrets
+.env
+.env.*
+*.local
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+
+# Test / cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# KITTI dataset and large local data
+datasets/
+data/
+kitti_object/
+data_object_calib/
+data_object_image_2/
+data_object_label_2/
+data_object_velodyne/
+devkit_object/
+
+# Generated AutoPercept3D outputs
+outputs/
+reports/
+reports_iou*/
+demo_assets/
+tracklet_reports*/
+tracking_reports*/
+tracklet_replay*/
+tracklet_analysis*/
+tracklet_curation*/
+tracklet_demo_export*/
+showcase_export*/
+
+# Generated media / heavy artifacts
+*.gif
+*.mp4
+*.avi
+*.mov
+
+# Keep small placeholder files if needed
+!.gitkeep
