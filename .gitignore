@@ -31,3 +31,9 @@ showcase_export*/
 *.mp4
 *.avi
 *.mov
+
+
+# Allow README demo media
+!docs/assets/
+!docs/assets/*.gif
+!docs/assets/*.png

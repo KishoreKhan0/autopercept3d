@@ -28,6 +28,10 @@ BEV/camera visualization + IoU evaluation + stable tracklet review
 
 ![Stable tracklet replay](docs/assets/tracklet_replay.gif)
 
+### Tracklet Replay Contact Sheet
+
+![Tracklet contact sheet](docs/assets/tracklet_replay_contact_sheet.png)
+
 ### Camera + LiDAR Projection
 
 ![LiDAR projection](docs/assets/lidar_projection_000264.png)
