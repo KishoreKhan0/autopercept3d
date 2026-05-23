@@ -17,15 +17,18 @@ from autopercept3d.visualization.bev import (
     set_bev_axes,
 )
 from autopercept3d.visualization.camera import draw_camera_panel
+from autopercept3d.visualization.oriented_bev import plot_oriented_boxes_bev
 
 
-DEFAULT_DATASET_ROOT = os.environ.get(
-    "KITTI_ROOT",
-    r"<PATH_TO_KITTI_OBJECT_DATASET>",
-)
+DEFAULT_DATASET_ROOT = os.environ.get("KITTI_ROOT", "")
 
 
 def list_frame_ids(dataset_root: str, max_frames: int = 300) -> list[str]:
+    dataset_root = dataset_root.strip().strip('"')
+
+    if not dataset_root:
+        return []
+
     velodyne_dir = Path(dataset_root) / "training" / "velodyne"
 
     if not velodyne_dir.exists():
@@ -50,7 +53,20 @@ def make_camera_figure(image, labels, frame_id: str):
     return fig
 
 
-def make_bev_summary_figure(result, labels, calibration):
+def draw_selected_box_type(result, box_type: str, show_ids: bool = True) -> None:
+    """
+    Draw either axis-aligned boxes or PCA-oriented boxes.
+
+    The pipeline always computes both. The dashboard only changes which one is
+    visualized.
+    """
+    if box_type == "PCA-oriented":
+        plot_oriented_boxes_bev(result.oriented_boxes, show_ids=show_ids)
+    else:
+        plot_proposal_boxes_bev(result.boxes, show_ids=show_ids)
+
+
+def make_bev_summary_figure(result, labels, calibration, box_type: str):
     fig = plt.figure(figsize=(14, 6))
 
     plt.subplot(1, 2, 1)
@@ -74,15 +90,45 @@ def make_bev_summary_figure(result, labels, calibration):
         result.filtered_cluster_points,
         result.filtered_cluster_labels,
     )
-    plot_proposal_boxes_bev(result.boxes, show_ids=True)
+    draw_selected_box_type(result, box_type=box_type, show_ids=True)
     plot_ground_truth_boxes_bev(labels, calibration)
 
     title = (
         f"Object proposals - frame {result.frame_id} | "
-        f"boxes={result.metrics['boxes']} | "
+        f"{box_type} boxes={result.metrics['boxes']} | "
         f"fps={result.metrics['approx_fps']:.2f}"
     )
     set_bev_axes(title)
+    plt.legend(markerscale=5)
+
+    plt.tight_layout()
+    return fig
+
+
+def make_box_comparison_figure(result, labels, calibration):
+    """
+    Compare old axis-aligned boxes and new PCA-oriented boxes side by side.
+    """
+    fig = plt.figure(figsize=(14, 6))
+
+    plt.subplot(1, 2, 1)
+    plot_cluster_points_bev(
+        result.filtered_cluster_points,
+        result.filtered_cluster_labels,
+    )
+    plot_proposal_boxes_bev(result.boxes, show_ids=True)
+    plot_ground_truth_boxes_bev(labels, calibration)
+    set_bev_axes(f"Axis-aligned boxes - frame {result.frame_id}")
+    plt.legend(markerscale=5)
+
+    plt.subplot(1, 2, 2)
+    plot_cluster_points_bev(
+        result.filtered_cluster_points,
+        result.filtered_cluster_labels,
+    )
+    plot_oriented_boxes_bev(result.oriented_boxes, show_ids=True)
+    plot_ground_truth_boxes_bev(labels, calibration)
+    set_bev_axes(f"PCA-oriented boxes - frame {result.frame_id}")
     plt.legend(markerscale=5)
 
     plt.tight_layout()
@@ -111,19 +157,20 @@ def metric_box(label: str, value):
 
 def main() -> None:
     st.set_page_config(
-        page_title="AutoPercept3D Dashboard + IoU",
+        page_title="AutoPercept3D Dashboard",
         page_icon="🚗",
         layout="wide",
     )
 
     st.title("AutoPercept3D")
-    st.caption("KITTI LiDAR perception, visualization, and BEV IoU evaluation workbench")
+    st.caption("KITTI LiDAR perception, oriented boxes, visualization, and BEV IoU evaluation workbench")
 
     st.sidebar.header("Dataset")
 
     dataset_root = st.sidebar.text_input(
         "KITTI dataset root",
         value=DEFAULT_DATASET_ROOT,
+        placeholder=r"Example: D:\datasets\kitti_object",
     )
 
     frame_limit = st.sidebar.slider(
@@ -138,9 +185,10 @@ def main() -> None:
 
     if not frame_ids:
         st.error(
-            "No KITTI frames found. Check that the dataset root contains "
+            "No KITTI frames found. Enter a dataset root that contains "
             "`training\\velodyne`."
         )
+        st.code(r"<PATH_TO_KITTI_OBJECT_DATASET>", language="text")
         st.stop()
 
     selected_frame = st.sidebar.selectbox(
@@ -189,6 +237,15 @@ def main() -> None:
         max_value=50,
         value=10,
         step=1,
+    )
+
+    st.sidebar.header("Visualization")
+
+    box_type = st.sidebar.radio(
+        "BEV box type",
+        options=["Axis-aligned", "PCA-oriented"],
+        index=1,
+        help="PCA-oriented boxes rotate with the cluster direction in BEV.",
     )
 
     st.sidebar.header("BEV IoU evaluation")
@@ -241,7 +298,7 @@ def main() -> None:
 
     st.subheader("Frame metrics")
 
-    col1, col2, col3, col4, col5 = st.columns(5)
+    col1, col2, col3, col4, col5, col6 = st.columns(6)
 
     with col1:
         metric_box("Raw points", result.metrics["raw_points"])
@@ -250,8 +307,10 @@ def main() -> None:
     with col3:
         metric_box("Non-ground", result.metrics["non_ground_points"])
     with col4:
-        metric_box("Boxes", result.metrics["boxes"])
+        metric_box("Axis boxes", result.metrics["axis_aligned_boxes"])
     with col5:
+        metric_box("Oriented boxes", result.metrics["oriented_boxes"])
+    with col6:
         metric_box("Approx FPS", result.metrics["approx_fps"])
 
     st.subheader("BEV IoU evaluation summary")
@@ -269,8 +328,14 @@ def main() -> None:
     with e5:
         metric_box("Mean IoU", eval_payload["mean_iou"])
 
-    tab_camera, tab_bev, tab_iou, tab_metrics = st.tabs(
-        ["Camera", "BEV perception", "BEV IoU evaluation", "Metrics + timings"]
+    tab_camera, tab_bev, tab_compare, tab_iou, tab_metrics = st.tabs(
+        [
+            "Camera",
+            "BEV perception",
+            "Box comparison",
+            "BEV IoU evaluation",
+            "Metrics + timings",
+        ]
     )
 
     with tab_camera:
@@ -280,16 +345,22 @@ def main() -> None:
 
     with tab_bev:
         st.write(
-            "Left: ground vs non-ground. Right: clusters, proposal boxes, "
+            f"Left: ground vs non-ground. Right: clusters, {box_type} proposal boxes, "
             "and KITTI ground-truth boxes."
         )
-        bev_fig = make_bev_summary_figure(result, labels, calibration)
+        bev_fig = make_bev_summary_figure(result, labels, calibration, box_type=box_type)
         st.pyplot(bev_fig, clear_figure=True)
+
+    with tab_compare:
+        st.write("Side-by-side comparison of old axis-aligned boxes and new PCA-oriented boxes.")
+        comparison_fig = make_box_comparison_figure(result, labels, calibration)
+        st.pyplot(comparison_fig, clear_figure=True)
 
     with tab_iou:
         st.write(
             "Lightweight AABB BEV IoU matching between proposal boxes and KITTI labels. "
-            "This is an internal debugging metric, not official KITTI evaluation."
+            "This currently evaluates the axis-aligned proposal boxes for consistency "
+            "with the existing metric."
         )
 
         st.json(

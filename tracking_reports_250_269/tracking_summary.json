@@ -1,0 +1,215 @@
+{
+  "frames": [
+    "000250",
+    "000251",
+    "000252",
+    "000253",
+    "000254",
+    "000255",
+    "000256",
+    "000257",
+    "000258",
+    "000259",
+    "000260",
+    "000261",
+    "000262",
+    "000263",
+    "000264",
+    "000265",
+    "000266",
+    "000267",
+    "000268",
+    "000269"
+  ],
+  "box_type": "oriented",
+  "max_match_distance": 2.5,
+  "max_missed": 2,
+  "summary": {
+    "assigned_detections": 686,
+    "unique_tracks": 442,
+    "longest_track_length": 6,
+    "mean_track_length": 1.5520361990950227
+  },
+  "per_frame": [
+    {
+      "frame_id": "000250",
+      "detections": 19,
+      "assigned_records": 19,
+      "active_tracks": 19,
+      "total_tracks_created": 19,
+      "pipeline_time_ms": 132.49429999268614,
+      "approx_fps": 7.54749449640627
+    },
+    {
+      "frame_id": "000251",
+      "detections": 33,
+      "assigned_records": 33,
+      "active_tracks": 52,
+      "total_tracks_created": 52,
+      "pipeline_time_ms": 109.66099999495782,
+      "approx_fps": 9.119012229014688
+    },
+    {
+      "frame_id": "000252",
+      "detections": 21,
+      "assigned_records": 21,
+      "active_tracks": 71,
+      "total_tracks_created": 71,
+      "pipeline_time_ms": 114.32339999009855,
+      "approx_fps": 8.747115639375746
+    },
+    {
+      "frame_id": "000253",
+      "detections": 32,
+      "assigned_records": 32,
+      "active_tracks": 80,
+      "total_tracks_created": 94,
+      "pipeline_time_ms": 149.49199999682605,
+      "approx_fps": 6.689321167829927
+    },
+    {
+      "frame_id": "000254",
+      "detections": 44,
+      "assigned_records": 44,
+      "active_tracks": 86,
+      "total_tracks_created": 122,
+      "pipeline_time_ms": 124.67479999759234,
+      "approx_fps": 8.020867087970556
+    },
+    {
+      "frame_id": "000255",
+      "detections": 64,
+      "assigned_records": 64,
+      "active_tracks": 116,
+      "total_tracks_created": 164,
+      "pipeline_time_ms": 166.79329998441972,
+      "approx_fps": 5.995444661706499
+    },
+    {
+      "frame_id": "000256",
+      "detections": 53,
+      "assigned_records": 53,
+      "active_tracks": 133,
+      "total_tracks_created": 196,
+      "pipeline_time_ms": 129.599900014,
+      "approx_fps": 7.716055335628925
+    },
+    {
+      "frame_id": "000257",
+      "detections": 43,
+      "assigned_records": 43,
+      "active_tracks": 123,
+      "total_tracks_created": 213,
+      "pipeline_time_ms": 93.44909997889772,
+      "approx_fps": 10.70101263924228
+    },
+    {
+      "frame_id": "000258",
+      "detections": 37,
+      "assigned_records": 37,
+      "active_tracks": 109,
+      "total_tracks_created": 231,
+      "pipeline_time_ms": 137.51709999633022,
+      "approx_fps": 7.271822922579708
+    },
+    {
+      "frame_id": "000259",
+      "detections": 58,
+      "assigned_records": 58,
+      "active_tracks": 112,
+      "total_tracks_created": 257,
+      "pipeline_time_ms": 156.33399999933317,
+      "approx_fps": 6.39656120872149
+    },
+    {
+      "frame_id": "000260",
+      "detections": 28,
+      "assigned_records": 28,
+      "active_tracks": 106,
+      "total_tracks_created": 275,
+      "pipeline_time_ms": 128.69750001118518,
+      "approx_fps": 7.77015870481625
+    },
+    {
+      "frame_id": "000261",
+      "detections": 31,
+      "assigned_records": 31,
+      "active_tracks": 98,
+      "total_tracks_created": 292,
+      "pipeline_time_ms": 145.95740000368096,
+      "approx_fps": 6.851314150394434
+    },
+    {
+      "frame_id": "000262",
+      "detections": 24,
+      "assigned_records": 24,
+      "active_tracks": 75,
+      "total_tracks_created": 307,
+      "pipeline_time_ms": 113.38359999353997,
+      "approx_fps": 8.819617652438051
+    },
+    {
+      "frame_id": "000263",
+      "detections": 17,
+      "assigned_records": 17,
+      "active_tracks": 65,
+      "total_tracks_created": 320,
+      "pipeline_time_ms": 126.36930000735447,
+      "approx_fps": 7.913314388398145
+    },
+    {
+      "frame_id": "000264",
+      "detections": 34,
+      "assigned_records": 34,
+      "active_tracks": 62,
+      "total_tracks_created": 341,
+      "pipeline_time_ms": 88.1562999857124,
+      "approx_fps": 11.343488782560875
+    },
+    {
+      "frame_id": "000265",
+      "detections": 22,
+      "assigned_records": 22,
+      "active_tracks": 66,
+      "total_tracks_created": 359,
+      "pipeline_time_ms": 93.32009998615831,
+      "approx_fps": 10.715805063950048
+    },
+    {
+      "frame_id": "000266",
+      "detections": 26,
+      "assigned_records": 26,
+      "active_tracks": 73,
+      "total_tracks_created": 375,
+      "pipeline_time_ms": 100.05189999355935,
+      "approx_fps": 9.994812692856138
+    },
+    {
+      "frame_id": "000267",
+      "detections": 50,
+      "assigned_records": 50,
+      "active_tracks": 85,
+      "total_tracks_created": 412,
+      "pipeline_time_ms": 114.86410000361502,
+      "approx_fps": 8.705940323987459
+    },
+    {
+      "frame_id": "000268",
+      "detections": 18,
+      "assigned_records": 18,
+      "active_tracks": 84,
+      "total_tracks_created": 424,
+      "pipeline_time_ms": 98.81679998943582,
+      "approx_fps": 10.119736726011231
+    },
+    {
+      "frame_id": "000269",
+      "detections": 32,
+      "assigned_records": 32,
+      "active_tracks": 87,
+      "total_tracks_created": 442,
+      "pipeline_time_ms": 132.44699998176657,
+      "approx_fps": 7.550189888315068
+    }
+  ]
+}

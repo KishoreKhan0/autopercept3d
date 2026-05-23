@@ -1,0 +1,14 @@
+{
+  "num_records": 247,
+  "num_tracks": 68,
+  "mean_track_length": 3.6323529411764706,
+  "median_track_length": 3.0,
+  "max_track_length": 7,
+  "mean_path_length": 8.15526071285432,
+  "mean_net_displacement": 6.567403723847128,
+  "mean_straightness_ratio": 0.7914636353958645,
+  "max_active_tracks_per_frame": 29,
+  "mean_active_tracks_per_frame": 12.35,
+  "mean_track_score": 0.695156142391707,
+  "mean_track_points": 87.85633753501399
+}
