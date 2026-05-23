@@ -1,0 +1,10 @@
+{
+  "frames_dir": "showcase_export_250_269\\tracklet_replay\\frames",
+  "num_frames": 20,
+  "first_frame_image": "showcase_export_250_269\\tracklet_replay\\frames\\tracklets_bev_000250.png",
+  "last_frame_image": "showcase_export_250_269\\tracklet_replay\\frames\\tracklets_bev_000269.png",
+  "duration_ms": 700,
+  "max_width": 1200,
+  "output_gif": "showcase_export_250_269\\tracklet_demo\\tracklet_replay.gif",
+  "contact_sheet": "showcase_export_250_269\\tracklet_demo\\tracklet_replay_contact_sheet.png"
+}
