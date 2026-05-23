@@ -16,3 +16,18 @@ Thumbs.db
 data/
 outputs/
 reports/
+
+# AutoPercept3D generated artifacts
+demo_assets/
+reports_iou*/
+tracking_reports*/
+tracklet_reports*/
+tracklet_replay*/
+tracklet_analysis*/
+tracklet_curation*/
+tracklet_demo_export*/
+showcase_export*/
+*.gif
+*.mp4
+*.avi
+*.mov
