@@ -5,7 +5,7 @@ This file is a project command checklist. It is intentionally separate from the 
 ## 1. Activate environment
 
 ```bat
-cd C:\Users\KISHORE KHAN\Desktop\Projects\autopercept3d
+cd <PATH_TO_AUTOPERCEPT3D>
 .venv\Scripts\activate
 ```
 
@@ -18,7 +18,7 @@ pip install -r requirements.txt
 ## 3. Set dataset root
 
 ```bat
-set KITTI_ROOT=C:\Users\KISHORE KHAN\Desktop\Projects\datasets\kitti_object
+set <PATH_TO_KITTI_OBJECT_DATASET>
 ```
 
 ## 4. Inspect one KITTI frame
