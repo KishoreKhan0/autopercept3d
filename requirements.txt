@@ -4,3 +4,4 @@ matplotlib
 scikit-learn
 Pillow
 streamlit
+opencv-python
