@@ -8,7 +8,9 @@ dependencies = [
     "opencv-python",
     "matplotlib",
     "scikit-learn",
-    "streamlit"
+    "streamlit",
+    "pandas",
+    "pillow",
 ]
 
 [tool.setuptools.packages.find]
